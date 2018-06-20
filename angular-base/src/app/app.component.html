@@ -1,0 +1,147 @@
+<style>
+<!-- We can define the styles here as well -->
+.glyphicon{
+    color:blue;
+}
+
+</style>
+
+<h1>Angular Template</h1>
+<courses></courses>
+
+<h1>Hello World</h1>
+<favorite [isFavorite]="post.isFavorite"
+(change)="onFavoriteChanged($event)"></favorite>
+
+This is how ngIf method works brother
+*ngIf is a structural directive.
+It either attaches or removes something to the DOM based on the condition or detaches something from the DOM.
+<div *ngIf="courses.length>0;
+then coursesList else except">
+</div>
+
+
+<ng-template #coursesList>
+    List of courses
+</ng-template>
+
+<ng-template #except>
+    No courses yet
+</ng-template>
+
+
+
+<!-- Hidden Property -->
+
+<div [hidden]="course.length === 0">
+List of courses
+</div>
+
+
+For larger element trees use *ngIf to remove it from
+the DOM and free up resources.
+
+For small element trees use [hidden] property
+
+<ul class="nav nav-pills">
+    <li [class.active]="viewMode === 'map'"><a (click)="viewMode = 'map'">Map View</a></li>
+    <li [class.active]="viewMode === 'list'"><a (click)="viewMode= 'list'">List View</a></li>
+</ul>
+
+<div [ngSwitch]="viewMode">
+    <div *ngSwitchCase="'map'">Map View Content</div>
+    <div *ngSwitchCase="'list'">List View Content</div>
+    <div *ngSwitchDefault>Otherwise</div>
+</div>
+
+<ul>
+    <li *ngFor="let course of courses; index as i">
+        {{i}} = {{course.name}}
+    </li>
+    <li *ngFor="let course of courses; even as IsEven">
+        {{course.name}} <span *ngIf="isEven">(EVEN)</span>
+
+    </li>
+</ul>
+
+<!-- Add a course logic -->
+<button (click)="onAddCourse()">Add Course</button>
+
+Use trackBy to optimise the performance for the application
+because in normal loop construct whenever the courses array
+changes,Angular by its change detection mechanism detects changes
+and again will re-render the objects in the courses array.
+In that case the objects in memory each time will get the different
+address in memory so its not optimal to track the objects by the memory
+instead we should track the course by its id which will always remain fixed
+and hence in that case once the courses array changes,courses will not rerender
+only new courses will be first time render and the courses that were rendered will 
+not be recreated in the tracking case.
+Trackby improves the performance of the application.
+<ul>
+    <li *ngFor="let course of courses; trackBy:trackCourse">
+        {{course.name}} {{course.id}}
+        <button (click)="onRemoveCourse(course)">Remove</button>
+        <button (click)="onChangeCourse(course)">Change the course</button>
+    </li>
+</ul>
+
+<button (click)="onLoadCourses()">Load the courses</button>
+
+
+<div *ngIf="courses.length>0; else noCourses">
+    List of all the courses
+</div>
+Angular will rebuild the block of code using the 
+ng-template and use ngIf as property binding to
+check for the condition based on which it attaches
+the block of code to the DOM or detaches it from
+the DOM.
+<ng-template [ngIf]="courses.length>0">
+    List of all the courses
+</ng-template>
+
+<ng-template [ngIf]="!(courses.length>0)">
+    No courses yet.
+</ng-template>
+
+For multiple style bindings use the ngStyle
+directives
+
+<!-- 
+<h1 [ngStyle]="{
+    'background-color': isSelected? 'red': 'green',
+    'color' : canSave? 'white': 'black'
+}"> -->
+</h1>
+
+<!-- Using the string interpolation -->
+<!-- Check for whether the
+assignee is defined or null -->
+<span *ngIf="task.assignee">{{task.assignee.name}}</span>
+
+
+<!-- USING THE SAFE TRAVERSAL OPERATOR -->
+<!-- This is the best approach
+over the above one when dealing with the
+complex objects. -->
+<span>{{task.assignee?.name}}</span>
+
+<input type="text" [appInputFormat]="'uppercase'">
+<!-- Creating Custom Directive for the application -->
+<!-- To have more control over the input elements
+You can use alias for custom directives for easy 
+usage without any conflicts.Use HostListener
+to subscribe to the events raised by the HostDOMObject
+-->
+<!-- Create directive from scratch 
+or using the angular cli to generate the directive
+
+ng g d input-format -->
+
+<!-- Fake HTTP Service Building development using
+jsonplaceholder.typicode.com/posts -->
+<!-- This fake service will serve as the backend for the application
+ -->
+
+
